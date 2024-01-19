@@ -17,7 +17,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Overview | Devias Kit
+        UCKG Connect
       </title>
     </Head>
     <Box
