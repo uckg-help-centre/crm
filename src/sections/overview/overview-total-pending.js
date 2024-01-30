@@ -4,7 +4,7 @@ import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 
-export const OverviewTotalCustomers = (props) => {
+export const OverviewPendingMembers = (props) => {
   const { difference, positive = false, sx, value } = props;
 
   return (
@@ -21,7 +21,7 @@ export const OverviewTotalCustomers = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Total Customers
+              Pending Members
             </Typography>
             <Typography variant="h4">
               {value}
@@ -29,7 +29,7 @@ export const OverviewTotalCustomers = (props) => {
           </Stack>
           <Avatar
             sx={{
-              backgroundColor: 'success.main',
+              backgroundColor: 'warning.main',
               height: 56,
               width: 56
             }}
@@ -39,6 +39,8 @@ export const OverviewTotalCustomers = (props) => {
             </SvgIcon>
           </Avatar>
         </Stack>
+        
+        
         {difference && (
           <Stack
             alignItems="center"
@@ -51,25 +53,32 @@ export const OverviewTotalCustomers = (props) => {
               direction="row"
               spacing={0.5}
             >
+              
+              {/* Check difference between last month
               <SvgIcon
                 color={positive ? 'success' : 'error'}
                 fontSize="small"
               >
                 {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
               </SvgIcon>
+              
+              
               <Typography
                 color={positive ? 'success.main' : 'error.main'}
                 variant="body2"
               >
                 {difference}%
               </Typography>
+              */}
             </Stack>
-            <Typography
+
+            {/*<Typography
               color="text.secondary"
               variant="caption"
             >
               Since last month
             </Typography>
+            */}
           </Stack>
         )}
       </CardContent>
@@ -77,7 +86,7 @@ export const OverviewTotalCustomers = (props) => {
   );
 };
 
-OverviewTotalCustomers.propTypes = {
+OverviewPendingMembers.propTypes = {
   difference: PropTypes.number,
   positive: PropTypes.bool,
   value: PropTypes.string.isRequired,

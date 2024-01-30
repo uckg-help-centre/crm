@@ -8,7 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Account | Devias Kit
+        UCKG Connect | Account
       </title>
     </Head>
     <Box

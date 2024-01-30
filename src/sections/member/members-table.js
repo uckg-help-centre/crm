@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Checkbox,
   Stack,
@@ -17,7 +18,7 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 
-export const CustomersTable = (props) => {
+export const MembersTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -67,9 +68,6 @@ export const CustomersTable = (props) => {
                 <TableCell>
                   Phone
                 </TableCell>
-                <TableCell>
-                  Signed Up
-                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -118,9 +116,6 @@ export const CustomersTable = (props) => {
                     <TableCell>
                       {customer.phone}
                     </TableCell>
-                    <TableCell>
-                      {createdAt}
-                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -141,7 +136,7 @@ export const CustomersTable = (props) => {
   );
 };
 
-CustomersTable.propTypes = {
+MembersTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

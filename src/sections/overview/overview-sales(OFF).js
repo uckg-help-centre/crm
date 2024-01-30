@@ -1,3 +1,5 @@
+/* USE AS EXAMPLE FOR FUTURE ANALYTICS AND GRAPHICS IMPLEMENTATION
+
 import PropTypes from 'prop-types';
 import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
 import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
@@ -157,3 +159,5 @@ OverviewSales.protoTypes = {
   chartSeries: PropTypes.array.isRequired,
   sx: PropTypes.object
 };
+
+*/

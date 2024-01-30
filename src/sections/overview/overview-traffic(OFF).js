@@ -1,3 +1,5 @@
+/* USE AS EXAMPLE FOR FUTURE ANALYTICS AND GRAPHICS IMPLEMENTATION
+
 import PropTypes from 'prop-types';
 import ComputerDesktopIcon from '@heroicons/react/24/solid/ComputerDesktopIcon';
 import DeviceTabletIcon from '@heroicons/react/24/solid/DeviceTabletIcon';
@@ -141,3 +143,5 @@ OverviewTraffic.propTypes = {
   labels: PropTypes.array.isRequired,
   sx: PropTypes.object
 };
+
+*/

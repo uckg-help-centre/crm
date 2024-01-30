@@ -3,9 +3,10 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, Link, Stack, TextField, Typography } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import { Logo } from 'src/components/logo';
 
 const Page = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ const Page = () => {
       email: '',
       name: '',
       password: '',
+      dob: '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -30,11 +32,14 @@ const Page = () => {
       password: Yup
         .string()
         .max(255)
-        .required('Password is required')
+        .required('Password is required'),
+      dob: Yup
+        .string()
+        .required('Date of Birth is required')
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signUp(values.email, values.name, values.password);
+        await auth.signUp(values.email, values.name, values.password, values.dob);
         router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
@@ -48,7 +53,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Register | Devias Kit
+          UCKG Connect - Register
         </title>
       </Head>
       <Box
@@ -67,14 +72,36 @@ const Page = () => {
             width: '100%'
           }}
         >
-          <div>
+
+          <Grid container spacing={0}>
+            {/* Container for Register */}
+            <Grid item xs={6} sm={6} md={6} lg={6}>
+              <Stack direction='row' justifyContent='left'>
+                <Typography variant="h4">Register</Typography>
+              </Stack>
+            </Grid>
+
+            <Grid item xs={6} md={6} lg={6}>
+              <Stack direction='row'>
+                <Box
+                    sx={{
+                      height: 32,
+                      width: 32,
+                      textDecoration: 'none',
+                      marginLeft: { xs: 3, sm: 10, md: 10, lg: 10 }, 
+                    }}
+                  >
+                    <Logo />
+                  </Box>
+              </Stack>
+            </Grid>
+
+          </Grid>
             <Stack
               spacing={1}
               sx={{ mb: 3 }}
             >
-              <Typography variant="h4">
-                Register
-              </Typography>
+
               <Typography
                 color="text.secondary"
                 variant="body2"
@@ -128,6 +155,19 @@ const Page = () => {
                   type="password"
                   value={formik.values.password}
                 />
+
+                <TextField
+                  error={!!(formik.touched.dob && formik.errors.dob)}
+                  fullWidth
+                  helperText={formik.touched.dob && formik.errors.dob}
+                  label="Date of Birth"
+                  name="dob"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="date" // You can adjust the type based on your preferred date picker
+                  value={formik.values.dob}
+                />
+
               </Stack>
               {formik.errors.submit && (
                 <Typography
@@ -148,7 +188,6 @@ const Page = () => {
                 Continue
               </Button>
             </form>
-          </div>
         </Box>
       </Box>
     </>

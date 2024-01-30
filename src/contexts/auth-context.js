@@ -151,8 +151,28 @@ export const AuthProvider = (props) => {
     });
   };
 
-  const signUp = async (email, name, password) => {
-    throw new Error('Sign up is not implemented');
+  const signUp = async (email, name, password, dob) => {
+    // Perform any necessary validation on the provided parameters
+  
+    try {
+      // Simulate a successful sign-up
+      const user = {
+        id: 'some-unique-id',
+        email: email,
+        name: name,
+        dob: dob // Include date of birth in the user object
+      };
+  
+      // Update the authentication state
+      dispatch({
+        type: HANDLERS.SIGN_IN,
+        payload: user
+      });
+    } catch (error) {
+      console.error('Sign-up failed:', error.message);
+      // You can handle the error appropriately, e.g., show an error message to the user
+      throw new Error('Sign-up failed');
+    }
   };
 
   const signOut = () => {

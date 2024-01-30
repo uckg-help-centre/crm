@@ -1,18 +1,21 @@
 import { useCallback, useMemo, useState } from 'react';
+import Link from 'next/link';
 import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { CustomersTable } from 'src/sections/customer/customers-table';
-import { CustomersSearch } from 'src/sections/customer/customers-search';
+import { MembersTable } from 'src/sections/member/members-table';  
+import { MembersSearch } from 'src/sections/member/members-search';  
 import { applyPagination } from 'src/utils/apply-pagination';
+import { UsersIcon } from '@heroicons/react/24/solid';
 
+// Generating a current date
 const now = new Date();
 
+// Sample data representing a list of customers
 const data = [
   {
     id: '5e887ac47eed253091be10cb',
@@ -156,7 +159,8 @@ const data = [
   }
 ];
 
-const useCustomers = (page, rowsPerPage) => {
+// Custom hook to handle pagination of member data  
+const useMembers = (page, rowsPerPage) => {
   return useMemo(
     () => {
       return applyPagination(data, page, rowsPerPage);
@@ -165,22 +169,30 @@ const useCustomers = (page, rowsPerPage) => {
   );
 };
 
-const useCustomerIds = (customers) => {
+// Custom hook to extract member IDs from a list of members  
+const useMemberIds = (members) => {
   return useMemo(
     () => {
-      return customers.map((customer) => customer.id);
+      return members.map((member) => member.id);
     },
-    [customers]
+    [members]
   );
 };
 
+// Main component definition
 const Page = () => {
+  // State variables to manage pagination and rows per page
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
 
+  // Using custom hooks to get paginated member data and their IDs  
+  const members = useMembers(page, rowsPerPage);
+  const memberIds = useMemberIds(members);
+
+  // Custom hook for handling selection (e.g., checkboxes) of members 
+  const membersSelection = useSelection(memberIds);
+
+  // Event handler for changing the current page and rows per page
   const handlePageChange = useCallback(
     (event, value) => {
       setPage(value);
@@ -188,6 +200,7 @@ const Page = () => {
     []
   );
 
+  // Event handler for changing the current rows per page
   const handleRowsPerPageChange = useCallback(
     (event) => {
       setRowsPerPage(event.target.value);
@@ -195,11 +208,12 @@ const Page = () => {
     []
   );
 
+  // JSX structure defining the layout of the page
   return (
     <>
       <Head>
         <title>
-          Customers | Devias Kit
+          UCKG | Members 
         </title>
       </Head>
       <Box
@@ -217,24 +231,20 @@ const Page = () => {
               spacing={4}
             >
               <Stack spacing={1}>
-                <Typography variant="h4">
-                  Customers
-                </Typography>
+                <Stack direction="row" spacing={1} >
+                  <SvgIcon fontSize="large">
+                    <UsersIcon />
+                  </SvgIcon>
+                  <Typography variant="h4">
+                    Member List
+                  </Typography>
+                </Stack>
+
                 <Stack
                   alignItems="center"
                   direction="row"
                   spacing={1}
                 >
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Import
-                  </Button>
                   <Button
                     color="inherit"
                     startIcon={(
@@ -248,31 +258,36 @@ const Page = () => {
                 </Stack>
               </Stack>
               <div>
-                <Button
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  )}
-                  variant="contained"
-                >
-                  Add
-                </Button>
+                <Link href="/new-member">
+                  <Button
+                    startIcon={(
+                      <SvgIcon fontSize="small">
+                        <PlusIcon />
+                      </SvgIcon>
+                    )}
+                    variant="contained"
+                    sx={{backgroundColor: 'success.main', '&:hover': {backgroundColor: 'success.dark'} }}
+                  >
+                    Add
+                  </Button>
+                </Link>
+
               </div>
             </Stack>
-            <CustomersSearch />
-            <CustomersTable
+            <MembersSearch /> 
+            {/* Table component displaying member data with pagination and selection features */}
+            <MembersTable  
               count={data.length}
-              items={customers}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              items={members}
+              onDeselectAll={membersSelection.handleDeselectAll}
+              onDeselectOne={membersSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={membersSelection.handleSelectAll}
+              onSelectOne={membersSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              selected={membersSelection.selected}
             />
           </Stack>
         </Container>
@@ -281,6 +296,7 @@ const Page = () => {
   );
 };
 
+// A static method to specify the layout for the page using a dashboard layout
 Page.getLayout = (page) => (
   <DashboardLayout>
     {page}
